@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSONPlaceholder API Example</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch("http://localhost:3000/users?id=1")
+      .then(response => response.json())
+      .then(json => console.log("json:", json))
+                    });
+               
+    </script>
+</head>
+<body>
+    <h1>JSONPlaceholder API Example</h1>
+    
+</body>
+</html>

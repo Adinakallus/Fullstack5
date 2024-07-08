@@ -27,7 +27,7 @@ const Home = () => {
               <a href="#" onClick={handleShowUserInfo}>Info</a>
             </li>
             <li>
-              <Link to={`/users/${user.id}/todos`}>Todos</Link>
+              <Link to={`/users/${user.id}/todos`} >Todos</Link>
             </li>
             <li>
               <Link to={`/users/${user.id}/posts`}>Posts</Link>

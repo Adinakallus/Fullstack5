@@ -22,45 +22,42 @@ const Register = () => {
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
 
-    await fetchObj.fetchData('users');
+    const users = await fetchObj.fetchData('users');
 
-    if (!fetchObj.error) {
-      const users = fetchObj.data;
-      const userExists = users?.some((u) => u.username === name);
+    const userExists = users?.some((u) => u.username === name);
 
-      if (userExists) {
-        alert('UserName already exists');
-      } else {
-        const newUser = {
-          id: (users.length + 1).toString(),
-          name: "",
-          username: name,
-          email: `${name}@example.com`,
-          address: {
-            street: "",
-            suite: "",
-            city: "",
-            zipcode: "",
-            geo: {
-              lat: "",
-              lng: ""
-            }
-          },
-          phone: "",
-          website: password,
-          company: {
-            name: "",
-            catchPhrase: "",
-            bs: ""
+    if (userExists) {
+      alert('UserName already exists');
+    } else {
+      const newUser = {
+        id: (users.length + 1).toString(),
+        name: "",
+        username: name,
+        email: `${name}@example.com`,
+        address: {
+          street: "",
+          suite: "",
+          city: "",
+          zipcode: "",
+          geo: {
+            lat: "",
+            lng: ""
           }
-        };
-
-        await fetchObj.fetchData('users', 'POST', newUser);
-
-        if (!fetchObj.error) {
-          localStorage.setItem('user', JSON.stringify(newUser));
-          navigate('/home');
+        },
+        phone: "",
+        website: password,
+        company: {
+          name: "",
+          catchPhrase: "",
+          bs: ""
         }
+      };
+
+      const postReq = await fetchObj.fetchData('users', 'POST', newUser);
+
+      if (postReq) {
+        localStorage.setItem('user', JSON.stringify(newUser));
+        navigate('/home');
       }
     }
   };

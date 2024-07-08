@@ -1,12 +1,8 @@
 // useFetch.js
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 
 function useFetch(baseURL) {
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(false);
-
   const fetchData = useCallback(async (urlPart, method = 'GET', body = null) => {
-    setError(false);
     try {
       const response = await fetch(`http://localhost:3000/${urlPart}`, {
         method,
@@ -19,16 +15,15 @@ function useFetch(baseURL) {
         throw new Error('Failed to fetch data');
       }
       const result = await response.json();
-      setData(result);
+      return result;
     } catch (err) {
-      setError(true);
       console.log(err.message);
       alert('Server error');
-    } 
+      return null;
+    }
   }, []);
 
-  return { data, error, fetchData };
+  return { fetchData };
 }
 
 export default useFetch;
-

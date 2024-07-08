@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import useFetch from '../hooks/useFetch';
+import useFetch from '../hooks/useFetchHook';
 
 const Login = () => {
   const nameRef = useRef();
@@ -14,22 +14,18 @@ const Login = () => {
     const name = nameRef.current.value;
     const password = passwordRef.current.value;
 
-      // Fetch the list of users from the server
-      await fetchObj.fetchData('users');
-      
-      if (!fetchObj.error) {
-        const users = fetchObj.data;
-        const user = users?.find((u) => u.username === name);
+    // Fetch the list of users from the server
+    const users = await fetchObj.fetchData('users');
+    const user = users?.find((u) => u.username === name);
 
-        if (user) {
-          if (user.website == password) {
-            localStorage.setItem('user', JSON.stringify(user)); 
-            navigate('/home'); 
-          }
-        } 
-        else 
-          alert('UserName or password mismatch');
-      }     
+    if (user) {
+      if (user.website == password) {
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/home');
+      }
+    }
+    else
+      alert('UserName or password mismatch');
   };
 
   return (
