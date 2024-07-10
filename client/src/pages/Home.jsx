@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import UserInfo from '../components/UserInfo';
 import DisplayPosts from '../components/DisplayPosts';
 import Posts from './Posts';
 
 const Home = () => {
-  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [showUserPosts, setShowUserPosts]=useState(false);
@@ -67,9 +66,6 @@ const Home = () => {
           )}
         </div>
       </div>
-      <button className="logout-button" onClick={handleLogout}>
-        Logout
-      </button>
     </div>
   );
 };

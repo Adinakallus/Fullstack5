@@ -1,25 +1,29 @@
 import { Routes, Route, Outlet } from 'react-router-dom';
 
-import NavBar from './components/NavBar'; // Adjust the import path as necessary
-import Home from './pages/Home'; // Adjust the import path as necessary
+import NavBar from './components/NavBar';
+import UserNavBar from './components/UserNavBar';
+import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Todos from './pages/Todos';
-import Posts from './pages/Posts';
+import Albums from './pages/Albums';
+
 const App = () => {
   return (
     <div className="App">
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
 
         <Route element={<NavBar />} >
-          <Route path="/users/:id">
-            <Route path="todos" element={<Todos />} />
-            <Route path="posts" element={<Posts />} /> 
-            {/* <Route path="albums" element={<Albums />} />  */}
-                        <Route path="*" element={<div>User Details</div>} />
+          <Route path="/home" element={<Home />} />
+
+          <Route element={<UserNavBar />} >
+            <Route path="/users/:id">
+              <Route path="todos" element={<Todos />} />
+              <Route path="albums" element={<Albums />} />
+              <Route path="*" element={<div>User Details</div>} />
+            </Route>
           </Route>
         </Route>
 
@@ -29,12 +33,5 @@ const App = () => {
     </div>
   );
 };
-
-const Layout = () => (
-  <div>
-    <NavBar />
-    <Outlet />
-  </div>
-);
 
 export default App;
