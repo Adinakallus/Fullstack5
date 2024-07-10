@@ -5,7 +5,7 @@ import Home from './pages/Home'; // Adjust the import path as necessary
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Todos from './pages/Todos';
-
+import Posts from './pages/Posts';
 const App = () => {
   return (
     <div className="App">
@@ -17,8 +17,9 @@ const App = () => {
         <Route element={<NavBar />} >
           <Route path="/users/:id">
             <Route path="todos" element={<Todos />} />
-            {/* <Route path="posts" element={<Posts />} /> */}
-            <Route path="*" element={<div>User Details</div>} />
+            <Route path="posts" element={<Posts />} /> 
+            {/* <Route path="albums" element={<Albums />} />  */}
+                        <Route path="*" element={<div>User Details</div>} />
           </Route>
         </Route>
 
