@@ -1,17 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import UserInfo from '../components/UserInfo';
 
 const Home = () => {
-  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
   const [showUserInfo, setShowUserInfo] = useState(false);
-
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
 
   const handleShowUserInfo = (e) => {
     e.preventDefault();
@@ -27,7 +21,7 @@ const Home = () => {
               <a href="#" onClick={handleShowUserInfo}>Info</a>
             </li>
             <li>
-              <Link to={`/users/${user.id}/todos`} >Todos</Link>
+              <Link to={`/users/${user.id}/todos`} state={{ user }} >Todos</Link>
             </li>
             <li>
               <Link to={`/users/${user.id}/posts`}>Posts</Link>
@@ -43,14 +37,11 @@ const Home = () => {
           ) : (
             <>
               <h2>Hello, {user.username}</h2>
-              <h3>Welcome to your page</h3>
+              <h3>Welcome to your home page</h3>
             </>
           )}
         </div>
       </div>
-      <button className="logout-button" onClick={handleLogout}>
-        Logout
-      </button>
     </div>
   );
 };

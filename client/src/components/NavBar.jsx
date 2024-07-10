@@ -1,15 +1,21 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
-const Navbar = () => {
+const NavBar = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+  };
+
   return (
-    <nav>
-      <ul>
-        <li><Link to="./login">LogOut</Link></li>
-        <li><Link to="./home">Home</Link></li>
-      </ul>
-    </nav>
+    <div>
+      <nav>
+        <ul>
+          <li><Link to="./login" onClick={handleLogout}>LogOut</Link></li>
+        </ul>
+      </nav>
+      <Outlet />
+    </div>
   );
 };
 
-export default Navbar;
+export default NavBar;
