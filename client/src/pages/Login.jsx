@@ -1,7 +1,9 @@
 import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../css/Login.css';
+
 import useFetch from '../hooks/useFetchHook';
+
+import '../css/login.css';
 
 const Login = () => {
   const nameRef = useRef();
@@ -40,6 +42,7 @@ const Login = () => {
           <label>Password:</label>
           <input type="password" ref={passwordRef} required />
         </div>
+        <Link to={'/register'}>SignUp here</Link>
         <button type="submit">Login</button>
       </form>
     </div>

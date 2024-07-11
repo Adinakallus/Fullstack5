@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
 
+import '../css/todos.css';
+
 const Todos = () => {
     const location = useLocation();
     const user = location.state.user;
@@ -137,24 +139,11 @@ const Todos = () => {
         });
     };
 
-    const getSuggestions = () => {
-        switch (searchCriterion) {
-            case 'serial':
-                return todos.map(todo => getLocalIndex(todo.id).toString());
-            case 'title':
-                return todos.map(todo => todo.title);
-            case 'completed':
-                return ['true', 'false'];
-            default:
-                return [];
-        }
-    };
-
     return (
         <div className="todos-container">
             <div className="todos-header">
                 <h2>{user.username}'s Todos</h2>
-                <div className="search-sort-container">
+                <div className="sort-container">
                     <p>Sort: </p>
                     <select onChange={handleSortChange} value={sortCriterion}>
                         <option value="serial">Serial</option>
@@ -163,7 +152,7 @@ const Todos = () => {
                         <option value="random">Random</option>
                     </select>
                 </div>
-                <div>
+                <div className='search-container'>
                     <p>search: </p>
                     <select onChange={handleSearchCriterionChange} value={searchCriterion}>
                         <option value="serial">Serial</option>
@@ -177,11 +166,6 @@ const Todos = () => {
                         placeholder="Search..."
                         list="suggestions"
                     />
-                    <datalist id="suggestions">
-                        {getSuggestions().map((suggestion, index) => (
-                            <option key={index} value={suggestion} />
-                        ))}
-                    </datalist>
                 </div>
             </div>
             <div className="add-todo-container">
@@ -195,22 +179,24 @@ const Todos = () => {
                 <button onClick={handleAddTodo}>Add</button>
             </div>
             <div className="todos-list">
-                <ul>
-                    {sortTodos(filterTodos(todos)).map((todo) => (
-                        <li key={todo.id} className="todo-item">
-                            <span className="todo-id">{getLocalIndex(todo.id)}</span>
-                            <span><input type="checkbox" checked={todo.completed} onChange={() => handleToggleCompleted(todo.id)} /></span>
-                            <span className="todo-title">
-                                <input
-                                    type="text"
-                                    value={todo.title}
-                                    onChange={(e) => handleUpdateTodo(todo.id, { ...todo, title: e.target.value })}
-                                />
-                            </span>
-                            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
-                        </li>
-                    ))}
-                </ul>
+                <div className="todos-scroll">
+                    <ul>
+                        {sortTodos(filterTodos(todos)).map((todo) => (
+                            <li key={todo.id} className="todo-item">
+                                <span className="todo-id">{getLocalIndex(todo.id)}</span>
+                                <span><input type="checkbox" checked={todo.completed} onChange={() => handleToggleCompleted(todo.id)} /></span>
+                                <span className="todo-title">
+                                    <input
+                                        type="text"
+                                        value={todo.title}
+                                        onChange={(e) => handleUpdateTodo(todo.id, { ...todo, title: e.target.value })}
+                                    />
+                                </span>
+                                <button onClick={() => handleDeleteTodo(todo.id)}>&#128465</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );

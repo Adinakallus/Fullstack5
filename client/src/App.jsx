@@ -5,8 +5,11 @@ import UserNavBar from './components/UserNavBar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import FillInfo from './pages/FillInfo';
 import Todos from './pages/Todos';
 import Albums from './pages/Albums';
+
+import './App.css'
 
 const App = () => {
   return (
@@ -14,6 +17,7 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path='/fillInfo' element={<FillInfo />} />
 
         <Route element={<NavBar />} >
           <Route path="/home" element={<Home />} />
@@ -22,6 +26,7 @@ const App = () => {
             <Route path="/users/:id">
               <Route path="todos" element={<Todos />} />
               <Route path="albums" element={<Albums />} />
+              <Route path="/albums/:aid" element={<AlbumDetails />} />
               <Route path="*" element={<div>User Details</div>} />
             </Route>
           </Route>
