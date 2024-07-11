@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import useFetch from '../hooks/useFetchHook';
-import {v4 as uuidv4} from 'uuid'
-const Posts = () => {
+import '../css/Posts.css'; // Import the CSS file
+
+    const Posts = () => {
     const [posts, setPosts] = useState([]);
     const [filterTerm, setFilterTerm] = useState('');
     const [filterType, setFilterType] = useState('id'); // 'id' or 'title'
@@ -204,33 +205,31 @@ const handleAddComment = async () => {
                     placeholder={`Filter by ${filterType}`}
                 />
             </div>
-            <ul>
+            <ul className="posts-list">
                 {getFilteredPosts().map(post => (
                     <li 
                         key={post.id}
+                        className={`post-item ${selectedPostId === post.id ? 'selected' : ''}`}
                         onClick={() => handlePostSelection(post.id)}
-                        style={{ 
-                            padding: '10px',
-                            margin: '10px 0',
-                            borderRadius: '5px'
-                        }}
                     >
                         <h3 
+                            className="post-title"
                             onClick={() => handlePostSelection(post.id)}
-                            style={{ cursor: 'pointer' }}
                         >
                             {post.title}
                         </h3>
                         {selectedPostId === post.id && (
-                            <>
+                            <div className="post-details">
                                 <p>{post.body}</p>
-                                <button onClick={(e) => { e.stopPropagation(); handleDeletePost(post.id); }}>Delete</button>
-                                <button onClick={(e) => { e.stopPropagation(); handleEditPost(post.id); }}>Edit</button>
-                                <button onClick={(e) => { e.stopPropagation(); handleFetchComments(post.id); }}>
-                                {commentsVisibility[post.id] ? 'Hide Comments' : 'Show Comments'}
-                                </button>
+                                <div className="post-actions">
+                                    <button onClick={(e) => { e.stopPropagation(); handleDeletePost(post.id); }}>Delete</button>
+                                    <button onClick={(e) => { e.stopPropagation(); handleEditPost(post.id); }}>Edit</button>
+                                    <button onClick={(e) => { e.stopPropagation(); handleFetchComments(post.id); }}>
+                                        {commentsVisibility[post.id] ? 'Hide Comments' : 'Show Comments'}
+                                    </button>
+                                </div>
                                 {editingPostId === post.id && (
-                                    <div>
+                                    <div className="edit-post">
                                         <input
                                             type="text"
                                             value={post.title}
@@ -246,7 +245,7 @@ const handleAddComment = async () => {
                                     </div>
                                 )}
                                 {commentsVisibility[post.id] && (
-                                    <div>
+                                    <div className="comments-section">
                                         <h4>Comments</h4>
                                         <textarea
                                             placeholder="Add a comment"
@@ -254,24 +253,25 @@ const handleAddComment = async () => {
                                             onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
                                         />
                                         <button onClick={handleAddComment}>Add Comment</button>
-                                        <ul>
+                                        <ul className="comments-list">
                                             {comments.map(comment => {
-                                                let user = JSON.parse(localStorage.getItem("user"));
                                                 const userEmail = user.email;
 
                                                 return (
-                                                    <li key={comment.id}>
-                                                        <p>{comment.name}</p>
-                                                        <span><p>Email:</p> <p>{comment.email}</p></span>
-                                                        <p>{comment.body}</p>
+                                                    <li key={comment.id} className="comment-item">
+                                                        <p><strong>{comment.name}</strong></p>
+                                                        <p className="comment-email">{comment.email}</p>
+                                                        <div className="comment-body">
+                                                            <p>{comment.body}</p>
+                                                        </div>
                                                         {comment.email === userEmail && (
-                                                            <div>
+                                                            <div className="comment-actions">
                                                                 <button onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
                                                                 <button onClick={() => handleEditComment(comment.id, comment.body)}>Edit Comment</button>
                                                             </div>
                                                         )}
                                                         {editingCommentId === comment.id && (
-                                                            <div>
+                                                            <div className="edit-comment">
                                                                 <textarea
                                                                     value={editingCommentBody}
                                                                     onChange={(e) => setEditingCommentBody(e.target.value)}
@@ -286,12 +286,12 @@ const handleAddComment = async () => {
                                         </ul>
                                     </div>
                                 )}
-                            </>
+                            </div>
                         )}
                     </li>
                 ))}
             </ul>
-            <button onClick={() => setShowAddPost(!showAddPost)}>
+            <button className="toggle-add-post" onClick={() => setShowAddPost(!showAddPost)}>
                 {showAddPost ? 'Cancel' : 'Add Post'}
             </button>
             {showAddPost && (
