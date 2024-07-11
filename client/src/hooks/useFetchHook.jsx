@@ -1,9 +1,10 @@
 // useFetch.js
 import { useCallback } from 'react';
 
-function useFetch(baseURL) {
+function useFetch() {
   const fetchData = useCallback(async (urlPart, method = 'GET', body = null) => {
     try {
+      console.log(`Fetching data from http://localhost:3000/${urlPart}`);
       const response = await fetch(`http://localhost:3000/${urlPart}`, {
         method,
         headers: {
@@ -12,13 +13,13 @@ function useFetch(baseURL) {
         body: body ? JSON.stringify(body) : null,
       });
       if (!response.ok) {
-        throw new Error('Failed to fetch data');
+        throw new Error(`http status: ${response.status}`);
       }
       const result = await response.json();
       return result;
     } catch (err) {
       console.log(err.message);
-      alert('Server error');
+      alert('Server error ' + err.message);
       return null;
     }
   }, []);

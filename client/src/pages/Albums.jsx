@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
@@ -6,6 +6,7 @@ import useFetch from '../hooks/useFetchHook';
 const Albums = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const hasRunRef = useRef(false);
 
   const fetchObj = useFetch();
 
@@ -28,8 +29,11 @@ const Albums = () => {
   }, [id]);
 
   useEffect(() => {
-    fetchAlbums();
-  }, [fetchAlbums]);
+    if (!hasRunRef.current) {
+      fetchAlbums();
+      hasRunRef.current = true;
+    }    
+  }, []);
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
