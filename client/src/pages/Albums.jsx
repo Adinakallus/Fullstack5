@@ -1,37 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
+import useFetch from '../hooks/useFetchHook';
+
 const Albums = () => {
- 
-  const { userId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const fetchObj = useFetch();
 
   const [albums, setAlbums] = useState([]);
   const [filteredAlbums, setFilteredAlbums] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  const fetchAlbums = useCallback(async () => {
+    setLoading(true);
+
+    const data = await fetchObj.fetchData('albums');
+    if (data) {
+      const userAlbums = data.filter(album => album.userId === Number(id));
+      setAlbums(userAlbums);
+      setFilteredAlbums(userAlbums);
+    }
+
+    setLoading(false);
+  }, [id]);
 
   useEffect(() => {
-    const fetchAlbums = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/albums');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        const userAlbums = data.filter(album => album.userId === Number(userId));
-        setAlbums(userAlbums);
-        setFilteredAlbums(userAlbums); // Initialize filteredAlbums with userAlbums
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchAlbums();
-  }, [userId]);
+  }, [fetchAlbums]);
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
@@ -40,64 +38,48 @@ const Albums = () => {
   };
 
   const filterAlbums = (query) => {
-    const filtered = albums.filter((album) => {
-      return album.title?.toLowerCase().includes(query.toLowerCase()) || album.id.toString().includes(query);
-    });
+    const filtered = albums.filter(album =>
+      album.title?.toLowerCase().includes(query.toLowerCase()) || album.id.toString().includes(query)
+    );
     setFilteredAlbums(filtered);
   };
 
   const handleClick = (albumId) => {
-    navigate(`/users/${userId}/albums/${albumId}`);
+    navigate(`/users/${id}/albums/${albumId}`);
   };
 
   const handleAdd = async () => {
-    let TITLEAlbum = prompt("Please enter the title of the Album:");
-    if (TITLEAlbum === '') {
-      // User clicked cancel or provided an empty value
+    const title = prompt("Please enter the title of the Album:");
+    if (!title) {
       alert("Error! You must enter a value ❌");
       return;
     }
-    if (TITLEAlbum != null) {
-      try {
-        const response = await fetch('http://localhost:3000/albums');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const allAlbums = await response.json();
-        const newId = Math.max(...allAlbums.map(album => Number(album.id))) + 1; // Generate a new unique id
 
-        const newAlbum = {
-          userId: Number(userId),
-          id: newId,
-          title: TITLEAlbum
-        };
+    const response = await fetchObj.fetchData('albums');
+    if (response) {
+      const newId = Math.max(...data.map(album => Number(album.id))) + 1; // Generate a new unique id
 
-        const postResponse = await fetch('http://localhost:3000/albums', {
-          method: 'POST',
-          body: JSON.stringify(newAlbum),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-        });
+      const newAlbum = {
+        userId: Number(id),
+        id: newId,
+        title
+      };
 
-        if (!postResponse.ok) {
-          throw new Error(`Network response was not ok: ${postResponse.statusText}`);
-        }
+      const postResponse = await fetchObj.fetchData('albums', 'POST', newAlbum);
 
+      if (postResponse) {
         const data = await postResponse.json();
         const updatedAlbums = [...albums, data];
         setAlbums(updatedAlbums);
         setFilteredAlbums(updatedAlbums);
         alert('The Album has been added successfully! ☑️');
-      } catch (error) {
-        alert('There was a problem with adding the album: ' + error.message);
       }
     }
   }
 
   return (
     <div>
-      <h2>User {userId}'s Albums</h2>
+      <h2>User {id}'s Albums</h2>
       <button onClick={handleAdd} id="addA-id">+ Add Album</button>
       <div className="search-container">
         <input
@@ -111,11 +93,9 @@ const Albums = () => {
       <div className="item-container">
         {loading ? (
           <p>Loading...</p>
-        ) : error ? (
-          <p>Error: {error}</p>
-        ) : (
-          filteredAlbums.map((album, index) => (
-            <div key={index} className="card" onClick={() => handleClick(album.id)}>
+        )  : (
+          filteredAlbums.map((album) => (
+            <div key={album.id} className="card" onClick={() => handleClick(album.id)}>
               <h3>{album.title}</h3>
               <p>Serial Number: {album.id}</p>
             </div>

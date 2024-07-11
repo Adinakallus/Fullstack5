@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Outlet } from "react-router-dom";
 
 const UserNavBar = () => (
-  <div>
+  <div className='outlet'>
     <nav>
       <ul>
         <li><Link to="./home">Home</Link></li>

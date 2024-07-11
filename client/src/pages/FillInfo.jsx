@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
 
-const CompleteProfile = () => {
+import '../css/completeProfile.css';
+
+const FillInfo = () => {
     const navigate = useNavigate();
     const fetchObj = useFetch();
 
@@ -20,10 +22,10 @@ const CompleteProfile = () => {
     const catchPhraseRef = useRef();
     const bsRef = useRef();
 
-    const handleCompleteProfile = async (e) => {
+    const handleInfo = async (e) => {
         e.preventDefault();
-
-        const newUser = JSON.parse(localStorage.getItem('newUser'));
+        console.log('info');
+        const newUser = JSON.parse(localStorage.getItem('user'));
 
         const updatedUser = {
             ...newUser,
@@ -59,7 +61,7 @@ const CompleteProfile = () => {
     return (
         <div className="container">
             <h2>Complete Your Profile</h2>
-            <form onSubmit={handleCompleteProfile} className="complete-profile-form">
+            <form onSubmit={handleInfo} className="complete-profile-form">
                 <div className="form-section">
                     <fieldset>
                         <legend>Personal Information</legend>
@@ -148,4 +150,4 @@ const CompleteProfile = () => {
     );
 };
 
-export default CompleteProfile;
+export default FillInfo;

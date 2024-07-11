@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../css/generalStyle.css';
+
 const UserInfo = ({ user }) => {
   return (
     <div className="user-info">

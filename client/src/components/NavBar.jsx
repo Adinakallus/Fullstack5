@@ -7,7 +7,7 @@ const NavBar = () => {
   };
 
   return (
-    <div>
+    <div className='outlet'>
       <nav>
         <ul>
           <li><Link to="./login" onClick={handleLogout}>LogOut</Link></li>

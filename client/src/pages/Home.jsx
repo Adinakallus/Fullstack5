@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-
 import UserInfo from '../components/UserInfo';
+
+import '../css/home.css';
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -18,16 +19,16 @@ const Home = () => {
         <nav className="navbar">
           <ul>
             <li>
-              <a href="#" onClick={handleShowUserInfo}>Info</a>
+              <a href="#" onClick={handleShowUserInfo} className="nav-link">Info</a>
             </li>
             <li>
-              <Link to={`/users/${user.id}/todos`} state={{ user }} >Todos</Link>
+              <Link to={`/users/${user.id}/todos`} state={{ user }} className="nav-link">Todos</Link>
             </li>
             <li>
-              <Link to={`/users/${user.id}/posts`}>Posts</Link>
+              <Link to={`/users/${user.id}/posts`} className="nav-link">Posts</Link>
             </li>
             <li>
-              <Link to={`/users/${user.id}/albums`}>Albums</Link>
+              <Link to={`/users/${user.id}/albums`} className="nav-link">Albums</Link>
             </li>
           </ul>
         </nav>
