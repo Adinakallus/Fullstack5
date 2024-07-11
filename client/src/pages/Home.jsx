@@ -1,17 +1,32 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
-
-import '../css/home.css';
+import DisplayPosts from '../components/DisplayPosts';
+import Posts from './Posts';
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'));
   const [showUserInfo, setShowUserInfo] = useState(false);
+  const [showUserPosts, setShowUserPosts]=useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   const handleShowUserInfo = (e) => {
     e.preventDefault();
     setShowUserInfo(true);
+    setShowUserPosts(false);
+
   };
+
+  const handleShowUserPosts=(e)=>{
+    e.preventDefault();
+    setShowUserInfo(false);
+    setShowUserPosts(true);
+    console.log("handleShowUserPosts")
+  }
 
   return (
     <div className="home-wrapper">
@@ -23,6 +38,9 @@ const Home = () => {
             </li>
             <li>
               <Link to={`/users/${user.id}/todos`} state={{ user }} className="nav-link">Todos</Link>
+            </li>
+            <li>  
+              <a href="#" onClick={handleShowUserPosts} >Posts</a>
             </li>
             <li>
               <Link to={`/users/${user.id}/posts`} className="nav-link">Posts</Link>
@@ -38,7 +56,14 @@ const Home = () => {
           ) : (
             <>
               <h2>Hello, {user.username}</h2>
-              <h3>Welcome to your home page</h3>
+              <h3>Welcome to your page</h3>
+            </>
+          )}
+          {showUserPosts?(
+            <Posts/>
+          ): (
+            <>
+             
             </>
           )}
         </div>
