@@ -8,15 +8,18 @@ const Posts = () => {
     const [selectedPostId, setSelectedPostId] = useState(null);
     const [editingPostId, setEditingPostId] = useState(null);
     const [comments, setComments] = useState([]);
-    const [showComments, setShowcomments]=useState(false);
     const [newPost, setNewPost] = useState({ title: '', body: '' });
     const [newComment, setNewComment]=useState({name:'', email:'', body:''});
+    const [commentsVisibility, setCommentsVisibility] = useState({});
     const [showAddPost, setShowAddPost] = useState(false);
+    const [editingCommentId, setEditingCommentId] = useState(null);
+    const [editingCommentBody, setEditingCommentBody] = useState('');
+    
     const fetchObj = useFetch();
-
+    const user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
         const fetchPosts = async () => {
-            let user = JSON.parse(localStorage.getItem("user"));
+            // let user = JSON.parse(localStorage.getItem("user"));
             const userIdNumber = Number(user.id);
             let userPosts = await fetchObj.fetchData('posts');
             let filteredPosts = userPosts.filter(post => post.userId === userIdNumber);
@@ -27,21 +30,26 @@ const Posts = () => {
         fetchPosts();
     }, [fetchObj]);
 
-    const handleFetchComments = async (postID) => {
-        const postIDNumber = Number(postID);
-        console.log("postID:", postIDNumber);
-
-        let postComents = await fetchObj.fetchData('comments');
-        let filteredComments = postComents.filter(comment => comment.postId=== postIDNumber);
-
+    const handleFetchComments = async (postId) => {
+        const postIDNumber = Number(postId);
+        
+        // Toggle comments visibility
+        setCommentsVisibility(prevVisibility => ({
+            ...prevVisibility,
+            [postId]: !prevVisibility[postId]
+        }));
+        
+        if (commentsVisibility[postId]) {
+            setComments([]);
+            return;
+        }
+    
+        let postComments = await fetchObj.fetchData('comments');
+        let filteredComments = postComments.filter(comment => comment.postId === postIDNumber);
+    
         setComments(filteredComments);
-        console.log("comments:", postComents);
-        console.log("filtered Comments:", filteredComments)
-        // setShowcomments(true);
-        setSelectedPostId(postID); // Ensure the post remains selected
-
     };
-
+    
     const handleFilterChange = (e) => {
         setFilterTerm(e.target.value);
     };
@@ -66,7 +74,7 @@ const Posts = () => {
     };
 
     const handleAddPost = async () => {
-        let user = JSON.parse(localStorage.getItem("user"));
+        // let user = JSON.parse(localStorage.getItem("user"));
         const userIdNumber = Number(user.id);
         const newPostData = { ...newPost, userId: userIdNumber };
         const response = await fetchObj.fetchData('posts', 'POST', newPostData);
@@ -115,23 +123,30 @@ const Posts = () => {
 /**
  * COMMENTS
  */
-    const handleAddComment = async () => {
-        let user = JSON.parse(localStorage.getItem("user"));
-        const userEmail = user.email;
+const handleAddComment = async () => {
+    // let user = JSON.parse(localStorage.getItem("user"));
+    const userEmail = user.email;
+    const userName = user.username;
+    const newCommentData = {
+        postId: Number(selectedPostId),
+        name: userName,
+        email: userEmail,
+        body: newComment.body
+    };
     
-        const newCommentData = {
-            postId: selectedPostId,
-            id:uuidv4().toString(),
-            name: newComment.name,
-            email: userEmail,
-            body: newComment.body
-        };
+    try {
         const response = await fetchObj.fetchData('comments', 'POST', newCommentData);
+        console.log('Add Comment Response:', response); // Log the response
         if (response) {
             setComments([...comments, response]);
             setNewComment({ name: '', email: '', body: '' });
         }
-    };
+    } catch (error) {
+        console.error('Error adding comment:', error.message);
+    }
+   
+};
+
 
     const handleDeleteComment = async (commentId) => {
         try {
@@ -141,13 +156,33 @@ const Posts = () => {
             console.error('Error deleting comment:', error.message);
         }
     };
-
-    const handleUpdateComment = async (commentId, updatedCommentData) => {
+    const handleEditComment = (commentId, body) => {
+        setEditingCommentId(commentId);
+        setEditingCommentBody(body);
+    };
+    
+    const handleCancelEditComment = () => {
+        setEditingCommentId(null);
+        setEditingCommentBody('');
+    };
+    const handleUpdateComment = async (commentId) => {
         try {
+            const userEmail = user.email;
+            const userName = user.username;
+            const updatedCommentData = { 
+                postId: Number(selectedPostId),
+                name: userName,
+                email: userEmail,
+                body: editingCommentBody
+             };
+
             const response = await fetchObj.fetchData(`comments/${commentId}`, 'PUT', updatedCommentData);
             if (response) {
                 const updatedComments = comments.map(comment => (comment.id === commentId ? response : comment));
                 setComments(updatedComments);
+                setEditingCommentId(null);
+                setEditingCommentBody('');
+                console.log('updated comment:',updatedCommentData )
             }
         } catch (error) {
             console.error('Error updating comment:', error.message);
@@ -175,25 +210,25 @@ const Posts = () => {
                         key={post.id}
                         onClick={() => handlePostSelection(post.id)}
                         style={{ 
-                            // cursor: 'pointer', 
-                            // backgroundColor: selectedPostId === post.id ? '#e0e0e0' : 'transparent',
                             padding: '10px',
                             margin: '10px 0',
                             borderRadius: '5px'
                         }}
                     >
                         <h3 
-                        onClick={() => handlePostSelection(post.id)}
-                        style={{ cursor: 'pointer' }}
+                            onClick={() => handlePostSelection(post.id)}
+                            style={{ cursor: 'pointer' }}
                         >
                             {post.title}
-                            </h3>
+                        </h3>
                         {selectedPostId === post.id && (
                             <>
                                 <p>{post.body}</p>
-                                <button onClick={(e) => {e.stopPropagation(); handleDeletePost(post.id);}}>Delete</button>
-                                <button onClick={(e) => {e.stopPropagation(); handleEditPost(post.id);}}>Edit</button>
-                                <button onClick={(e) => {e.stopPropagation(); handleFetchComments(post.id);}}>Show Commemts</button>
+                                <button onClick={(e) => { e.stopPropagation(); handleDeletePost(post.id); }}>Delete</button>
+                                <button onClick={(e) => { e.stopPropagation(); handleEditPost(post.id); }}>Edit</button>
+                                <button onClick={(e) => { e.stopPropagation(); handleFetchComments(post.id); }}>
+                                {commentsVisibility[post.id] ? 'Hide Comments' : 'Show Comments'}
+                                </button>
                                 {editingPostId === post.id && (
                                     <div>
                                         <input
@@ -207,63 +242,60 @@ const Posts = () => {
                                             onChange={(e) => setPosts(posts.map(p => p.id === post.id ? { ...p, body: e.target.value } : p))}
                                         />
                                         <button onClick={() => handleUpdatePost(post.id, post)}>Update</button>
-                                        <button onClick={(e) => { handleCancelEdit();}}>Cancel</button>
+                                        <button onClick={handleCancelEdit}>Cancel</button>
                                     </div>
                                 )}
+                                {commentsVisibility[post.id] && (
                                     <div>
                                         <h4>Comments</h4>
                                         <textarea
-                                        placeholder="Add a comment"
-                                        value={newComment.body}
-                                        onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
-                                    />
-                                    <input
-                                        type="text"
-                                        placeholder="Name"
-                                        value={newComment.name}
-                                        onChange={(e) => setNewComment({ ...newComment, name: e.target.value })}
-                                    />
-                                     <input
-                                        type="email"
-                                        placeholder="Email"
-                                        value={newComment.email}
-                                        onChange={(e) => setNewComment({ ...newComment, email: e.target.value })}
-                                    />
+                                            placeholder="Add a comment"
+                                            value={newComment.body}
+                                            onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
+                                        />
                                         <button onClick={handleAddComment}>Add Comment</button>
                                         <ul>
-                                        {comments.map(comment => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    const userEmail = user.email;
+                                            {comments.map(comment => {
+                                                let user = JSON.parse(localStorage.getItem("user"));
+                                                const userEmail = user.email;
 
-    return (
-        <li key={comment.id}>
-            <p>{comment.name} </p>
-            <span><p>Email:</p> <p>{comment.email}</p></span>
-            <p>{comment.body}</p>
-            {comment.email === userEmail && ( // Only show buttons if the comment email matches the user's email
-                <div>
-                    <button onClick={(e) => { handleDeleteComment(comment.id); }}>Delete Comment</button>
-                    <button onClick={(e) => { handleUpdateComment(comment.id, { ...comment, body: 'Updated comment text' }); }}>Update Comment</button>
-                </div>
-            )}
-        </li>
-    );
-})}
+                                                return (
+                                                    <li key={comment.id}>
+                                                        <p>{comment.name}</p>
+                                                        <span><p>Email:</p> <p>{comment.email}</p></span>
+                                                        <p>{comment.body}</p>
+                                                        {comment.email === userEmail && (
+                                                            <div>
+                                                                <button onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
+                                                                <button onClick={() => handleEditComment(comment.id, comment.body)}>Edit Comment</button>
+                                                            </div>
+                                                        )}
+                                                        {editingCommentId === comment.id && (
+                                                            <div>
+                                                                <textarea
+                                                                    value={editingCommentBody}
+                                                                    onChange={(e) => setEditingCommentBody(e.target.value)}
+                                                                />
+                                                                <button onClick={() => handleUpdateComment(comment.id)}>Update Comment</button>
+                                                                <button onClick={handleCancelEditComment}>Cancel</button>
+                                                            </div>
+                                                        )}
+                                                    </li>
+                                                );
+                                            })}
                                         </ul>
-                                        
-
                                     </div>
+                                )}
                             </>
                         )}
                     </li>
                 ))}
             </ul>
             <button onClick={() => setShowAddPost(!showAddPost)}>
-                {showAddPost ? 'Cancel' : 'Add New Post'}
+                {showAddPost ? 'Cancel' : 'Add Post'}
             </button>
             {showAddPost && (
-                <div>
-                    <h3>Add New Post</h3>
+                <div className="new-post-form">
                     <input
                         type="text"
                         placeholder="Title"
