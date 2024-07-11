@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
 import DisplayPosts from '../components/DisplayPosts';
 import Posts from './Posts';
+import '../css/HomePage.css';
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user'));

@@ -1,5 +1,6 @@
 .posts-container {
     width: 80%;
+    height: inherit;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
