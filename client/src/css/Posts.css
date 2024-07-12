@@ -1,12 +1,16 @@
 .posts-container {
     width: 80%;
-    height: inherit;
+    min-height: 100%;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     background-color: #f9f9f9;
+}
+button{
+    background-color:#7b00ffd7 ;
+    color: #000;
 }
 
 h2 {
@@ -171,4 +175,7 @@ h2 {
     border-radius: 5px;
     resize: vertical;
     min-height: 60px;
+}
+button{
+    background-color:#7b00ffd7 ;
 }

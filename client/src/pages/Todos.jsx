@@ -176,7 +176,7 @@ const Todos = () => {
                     onKeyDown={handleKeyDown}
                     placeholder="new task..."
                 />
-                <button onClick={handleAddTodo}>Add</button>
+                <button className='todo-button' onClick={handleAddTodo}>Add</button>
             </div>
             <div className="todos-list">
                 <div className="todos-scroll">
@@ -192,7 +192,7 @@ const Todos = () => {
                                         onChange={(e) => handleUpdateTodo(todo.id, { ...todo, title: e.target.value })}
                                     />
                                 </span>
-                                <button onClick={() => handleDeleteTodo(todo.id)}>&#128465</button>
+                                <button className='delete-todo' onClick={() => handleDeleteTodo(todo.id)}>&#128465</button>
                             </li>
                         ))}
                     </ul>

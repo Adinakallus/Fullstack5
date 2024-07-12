@@ -32,6 +32,10 @@ const Home = () => {
   return (
     <div className="home-wrapper">
       <div className="home-container">
+        <div className="content">
+          <h2>Hello, {user.username}</h2>
+          <h3>Welcome to your page</h3>
+        </div>
         <nav className="navbar">
           <ul>
             <li>
@@ -40,11 +44,8 @@ const Home = () => {
             <li>
               <Link to={`/users/${user.id}/todos`} state={{ user }} className="nav-link">Todos</Link>
             </li>
-            <li>  
-              <a href="#" onClick={handleShowUserPosts} >Posts</a>
-            </li>
             <li>
-              <Link to={`/users/${user.id}/posts`} className="nav-link">Posts</Link>
+              <Link to={`/users/${user.id}/posts`} state={{ user }} className="nav-link">Posts</Link>
             </li>
             <li>
               <Link to={`/users/${user.id}/albums`} className="nav-link">Albums</Link>
@@ -54,19 +55,10 @@ const Home = () => {
         <div className="content">
           {showUserInfo ? (
             <UserInfo user={user} />
-          ) : (
-            <>
-              <h2>Hello, {user.username}</h2>
-              <h3>Welcome to your page</h3>
-            </>
-          )}
-          {showUserPosts?(
-            <Posts/>
-          ): (
-            <>
-             
-            </>
-          )}
+          ) : null}
+          {showUserPosts ? (
+            <Posts />
+          ) : null}
         </div>
       </div>
     </div>

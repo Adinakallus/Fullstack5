@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../css/generalStyle.css';
+// import '../css/generalStyle.css';
 
 const UserInfo = ({ user }) => {
   return (

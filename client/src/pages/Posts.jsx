@@ -240,7 +240,7 @@ const handleAddComment = async () => {
                                             value={post.body}
                                             onChange={(e) => setPosts(posts.map(p => p.id === post.id ? { ...p, body: e.target.value } : p))}
                                         />
-                                        <button onClick={() => handleUpdatePost(post.id, post)}>Update</button>
+                                        <button onClick={(e)=>{e.stopPropagation;() => handleUpdatePost(post.id, post);}}>Update</button>
                                         <button onClick={handleCancelEdit}>Cancel</button>
                                     </div>
                                 )}

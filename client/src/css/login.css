@@ -1,50 +1,78 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #1fbeb6; */
+    font-family: Arial, sans-serif;
+}
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color:#fff;
+}
+
 .login-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background-color: #f9f9f9;
+    width: 400px;
+    padding: 20px;
+    margin: 50px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    text-align: center;
+    
+}
+.form-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 20px;
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  width: 80%;
-  max-width: 400px;
-  background-color: #fff;
-  padding: 20px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.login-container form {
+    display: flex;
+    justify-self: center;
+    flex-direction: column;
+    background-color: #fff;
 }
 
-label {
-  margin: 10px 0 5px;
-  color: #555;
+
+.login-container label {
+    font-weight: bold;
+    text-align: left;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0 20px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: calc(100% - 22px);
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #6c757d;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+.login-container button[type="submit"] {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #7b00ffd7;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #5a6268;
+.login-container button[type="submit"]:hover {
+    background-color: #0056b3;
 }

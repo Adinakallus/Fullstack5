@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom'; // Added Link import here
 
 import useFetch from '../hooks/useFetchHook';
 
-import '../css/login.css';
+import '../css/Login.css';
 
 const Login = () => {
   const nameRef = useRef();
@@ -31,8 +31,10 @@ const Login = () => {
   };
 
   return (
+    <div className='login-wrapper'>
     <div className="login-container">
       <h2>Login</h2>
+      <div className='form-wrapper'>
       <form onSubmit={handleSubmit}>
         <div>
           <label>UserName:</label>
@@ -45,6 +47,8 @@ const Login = () => {
         <Link to={'/register'}>SignUp here</Link>
         <button type="submit">Login</button>
       </form>
+      </div>
+    </div>
     </div>
   );
 };
