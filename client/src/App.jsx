@@ -9,6 +9,7 @@ import FillInfo from './pages/FillInfo';
 import Todos from './pages/Todos';
 import Albums from './pages/Albums';
 import ShowAlbum from './pages/ShowAlbum';
+import Posts from './pages/Posts';
 
 import './App.css'
 
