@@ -29,6 +29,8 @@ const App = () => {
               <Route path="todos" element={<Todos />} />
               <Route path="albums" element={<Albums />} />
               <Route path="albums/:aid" element={<ShowAlbum />} />
+              <Route path="posts" element={<Posts />} />
+
               <Route path="*" element={<div>User Details</div>} />
             </Route>
           </Route>

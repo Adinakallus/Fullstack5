@@ -1,21 +1,31 @@
 .todos-container {
     box-sizing:border-box;
     display: flex;
+    width:1000px;
     min-height: 100%;
     flex-direction: column;
     align-items: center;
     height: calc(30vh - 60px);
-    background-color: #f9f9f9;
+    /* height: calc(100vh - 60px); Adjusted height to fill viewport */
+
     overflow: hidden;
+    padding: 20px;
+    /* max-width: 100%; Ensured max-width is 100% for responsiveness */
+
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+
 }
 
 .todos-header {
     width: 100%;
     max-width: 800px;
     text-align: center;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
 }
 
 .todos-header h2 {
@@ -69,15 +79,16 @@
 
 .todos-list {
     width: 100%;
-    max-width: 800px;
     flex: 1;
     overflow: auto;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    /* margin: 0; */
+    list-style: none;
+
 }
 
 .todo-item {
+    min-width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -93,6 +104,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.todo-item input[type="checkbox"] {
+    margin-right: 10px; /* Added margin to checkbox for spacing */
+    width: 100%;
+}
 .todo-title {
     flex: 1;
     margin-right: 20px;
@@ -129,4 +144,7 @@
 .delete-todo{
         background-color: #ff2600d7;
     
+}
+.checkbox{
+    background-color: "#7b00ffd7";
 }

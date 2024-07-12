@@ -1,0 +1,89 @@
+.show-album-container {
+    width: 100%;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 20px auto;
+}
+
+.show-album-container h2 {
+    color: #333;
+}
+
+.show-album-container form {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.show-album-container form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.show-album-container form input[type="text"],
+.show-album-container form input[type="url"] {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.show-album-container form button {
+    background-color: #7b00ffd7;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.show-album-container form button:hover {
+    background-color: #0056b3;
+}
+
+.photo-viewer {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.photo-viewer .image-item {
+    margin-bottom: 20px;
+}
+
+.photo-viewer .carousel-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.photo-viewer .edit-button,
+.photo-viewer .delete-button,
+.photo-viewer .nav-button {
+    background-color: #7b00ffd7;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+.photo-viewer .edit-button:hover,
+.photo-viewer .delete-button:hover,
+.photo-viewer .nav-button:hover {
+    background-color: #0056b3;
+}
+#add-id, #back-id{
+    background-color: #7b00ffd7;
+
+}

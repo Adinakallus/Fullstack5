@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
-
+import '../css/Albums.css'
 const Albums = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -82,9 +82,11 @@ const Albums = () => {
   }
 
   return (
-    <div>
-      <h2>User {id}'s Albums</h2>
+    <div className="albums-container">
+      <div className="albums-header">
+          <h2>User {id}'s Albums</h2>
       <button onClick={handleAdd} id="addA-id">+ Add Album</button>
+      </div>
       <div className="search-container">
         <input
           type="text"

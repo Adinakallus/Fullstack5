@@ -1,0 +1,88 @@
+.albums-container {
+    width: 100%;
+    min-height: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.albums-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.albums-header h2 {
+    color: #444;
+    font-size: 2rem;
+}
+
+.add-album-button {
+    padding: 10px 20px;
+    background-color: #7b00ffd7;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.add-album-button:hover {
+    background-color: #7b00ffd7;
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-input {
+    padding: 8px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.item-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.card {
+    padding: 20px;
+    width: 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    color: #333;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #666;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+#addA-id{
+    background-color: #7b00ffd7;
+
+}

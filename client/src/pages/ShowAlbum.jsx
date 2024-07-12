@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import useFetch from '../hooks/useFetchHook';
+import '../css/ShowAlbum.css'
 
 const ShowAlbum = () => {
     const { id, aid } = useParams();
@@ -132,7 +133,7 @@ const ShowAlbum = () => {
     };
 
     return (
-        <div>
+        <div className='show-album-container '>
             <h2>Album {id} Photos</h2>
             <button onClick={() => setShowAddForm((prev) => !prev)} id="add-id" disabled={buttonDisabled}>
                 + Add Photo

@@ -188,7 +188,7 @@ const Todos = () => {
                         {sortTodos(filterTodos(todos)).map((todo) => (
                             <li key={todo.id} className="todo-item">
                                 <span className="todo-id">{getLocalIndex(todo.id)}</span>
-                                <span><input type="checkbox" checked={todo.completed} onChange={() => handleToggleCompleted(todo.id)} /></span>
+                                <span><input className='checkbox' type="checkbox" checked={todo.completed} onChange={() => handleToggleCompleted(todo.id)} /></span>
                                 <span className="todo-title">
                                     <input
                                         type="text"
