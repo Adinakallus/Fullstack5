@@ -222,9 +222,9 @@ const handleAddComment = async () => {
                             <div className="post-details">
                                 <p>{post.body}</p>
                                 <div className="post-actions">
-                                    <button onClick={(e) => { e.stopPropagation(); handleDeletePost(post.id); }}>Delete</button>
-                                    <button onClick={(e) => { e.stopPropagation(); handleEditPost(post.id); }}>Edit</button>
-                                    <button onClick={(e) => { e.stopPropagation(); handleFetchComments(post.id); }}>
+                                    <button id='btn' onClick={(e) => { e.stopPropagation(); handleDeletePost(post.id); }}>Delete</button>
+                                    <button id='btn' onClick={(e) => { e.stopPropagation(); handleEditPost(post.id); }}>Edit</button>
+                                    <button id='btn' onClick={(e) => { e.stopPropagation(); handleFetchComments(post.id); }}>
                                         {commentsVisibility[post.id] ? 'Hide Comments' : 'Show Comments'}
                                     </button>
                                 </div>
@@ -240,8 +240,8 @@ const handleAddComment = async () => {
                                             value={post.body}
                                             onChange={(e) => setPosts(posts.map(p => p.id === post.id ? { ...p, body: e.target.value } : p))}
                                         />
-                                        <button onClick={(e)=>{e.stopPropagation;() => handleUpdatePost(post.id, post);}}>Update</button>
-                                        <button onClick={handleCancelEdit}>Cancel</button>
+                                        <button id='btn' onClick={(e) => { e.stopPropagation(); handleUpdatePost(post.id, post); }}>Update</button>
+                                        <button id='btn' onClick={handleCancelEdit}>Cancel</button>
                                     </div>
                                 )}
                                 {commentsVisibility[post.id] && (
@@ -252,7 +252,7 @@ const handleAddComment = async () => {
                                             value={newComment.body}
                                             onChange={(e) => setNewComment({ ...newComment, body: e.target.value })}
                                         />
-                                        <button onClick={handleAddComment}>Add Comment</button>
+                                        <button id='btn' onClick={handleAddComment}>Add Comment</button>
                                         <ul className="comments-list">
                                             {comments.map(comment => {
                                                 const userEmail = user.email;
@@ -266,8 +266,8 @@ const handleAddComment = async () => {
                                                         </div>
                                                         {comment.email === userEmail && (
                                                             <div className="comment-actions">
-                                                                <button onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
-                                                                <button onClick={() => handleEditComment(comment.id, comment.body)}>Edit Comment</button>
+                                                                <button id='btn' onClick={() => handleDeleteComment(comment.id)}>Delete Comment</button>
+                                                                <button id='btn' onClick={() => handleEditComment(comment.id, comment.body)}>Edit Comment</button>
                                                             </div>
                                                         )}
                                                         {editingCommentId === comment.id && (
@@ -276,8 +276,8 @@ const handleAddComment = async () => {
                                                                     value={editingCommentBody}
                                                                     onChange={(e) => setEditingCommentBody(e.target.value)}
                                                                 />
-                                                                <button onClick={() => handleUpdateComment(comment.id)}>Update Comment</button>
-                                                                <button onClick={handleCancelEditComment}>Cancel</button>
+                                                                <button id='btn' onClick={() => handleUpdateComment(comment.id)}>Update Comment</button>
+                                                                <button id='btn' onClick={handleCancelEditComment}>Cancel</button>
                                                             </div>
                                                         )}
                                                     </li>
@@ -307,7 +307,7 @@ const handleAddComment = async () => {
                         value={newPost.body}
                         onChange={(e) => setNewPost({ ...newPost, body: e.target.value })}
                     />
-                    <button onClick={handleAddPost}>Add Post</button>
+                    <button  id='btn' onClick={handleAddPost}>Add Post</button>
                 </div>
             )}
         </div>

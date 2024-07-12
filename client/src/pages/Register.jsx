@@ -63,7 +63,8 @@ const Register = () => {
   };
 
   return (
-    <div className="signup-container">
+    <div className="login-wrapper">
+      <div className="login-container">
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -81,6 +82,7 @@ const Register = () => {
         <button type="submit" disabled={!passwordsMatch}>Sign Up</button>
       </form>
       {!passwordsMatch && <p className="error-message">Passwords do not match</p>}
+    </div>
     </div>
   );
 };
