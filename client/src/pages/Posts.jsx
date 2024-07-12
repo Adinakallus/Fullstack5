@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import useFetch from '../hooks/useFetchHook';
 import '../css/Posts.css'; // Import the CSS file
 
@@ -16,6 +16,7 @@ import '../css/Posts.css'; // Import the CSS file
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editingCommentBody, setEditingCommentBody] = useState('');
     
+    const hasRunRef = useRef(false);
     const fetchObj = useFetch();
     const user = JSON.parse(localStorage.getItem("user"));
     useEffect(() => {
@@ -28,8 +29,10 @@ import '../css/Posts.css'; // Import the CSS file
             setPosts(filteredPosts);
         };
 
-        fetchPosts();
-    }, [fetchObj]);
+        if (!hasRunRef.current) {
+            fetchPosts();
+        }
+    }, []);
 
     const handleFetchComments = async (postId) => {
         const postIDNumber = Number(postId);

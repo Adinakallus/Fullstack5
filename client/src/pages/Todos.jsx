@@ -28,7 +28,7 @@ const Todos = () => {
 
         if (!hasRunRef.current) {
             if (user && user.id) fetchTodos();
-            hasRunRef.current = true;
+                hasRunRef.current = true;
         }
     }, []);
 

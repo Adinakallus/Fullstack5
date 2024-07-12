@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'; // Added Link import here
 
 import useFetch from '../hooks/useFetchHook';
 
-import '../css/Login.css';
+import '../css/login.css';
 
 const Login = () => {
   const nameRef = useRef();
