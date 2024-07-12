@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
 import '../css/Albums.css'
+
 const Albums = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Albums = () => {
   const [filteredAlbums, setFilteredAlbums] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
+  const [newAlbumTitle, setNewAlbumTitle] = useState('');
 
   const fetchAlbums = useCallback(async () => {
     setLoading(true);
@@ -33,7 +35,7 @@ const Albums = () => {
       fetchAlbums();
       hasRunRef.current = true;
     }    
-  }, []);
+  }, [fetchAlbums]);
 
   const handleSearchChange = (event) => {
     const { value } = event.target;
@@ -53,39 +55,45 @@ const Albums = () => {
   };
 
   const handleAdd = async () => {
-    const title = prompt("Please enter the title of the Album:");
-    if (!title) {
+    if (!newAlbumTitle.trim()) {
       alert("Error! You must enter a value ❌");
       return;
     }
 
-    const response = await fetchObj.fetchData('albums');
-    if (response) {
-      const newId = Math.max(...data.map(album => Number(album.id))) + 1; // Generate a new unique id
+    const alist = await fetchObj.fetchData('albums');
+    if (alist) {
+      const newId = Math.max(...alist.map(album => Number(album.id))) + 1; // Generate a new unique id
 
       const newAlbum = {
         userId: Number(id),
         id: newId,
-        title
+        title: newAlbumTitle
       };
 
       const postResponse = await fetchObj.fetchData('albums', 'POST', newAlbum);
 
       if (postResponse) {
-        const data = await postResponse.json();
-        const updatedAlbums = [...albums, data];
+        const updatedAlbums = [...albums, postResponse];
         setAlbums(updatedAlbums);
         setFilteredAlbums(updatedAlbums);
         alert('The Album has been added successfully! ☑️');
+        setNewAlbumTitle(''); // Clear the input field after adding the album
       }
     }
-  }
+  };
 
   return (
     <div className="albums-container">
       <div className="albums-header">
-          <h2>User {id}'s Albums</h2>
-      <button onClick={handleAdd} id="addA-id">+ Add Album</button>
+        <h2>User {id}'s Albums</h2>
+        <input
+          type="text"
+          placeholder="New album title"
+          value={newAlbumTitle}
+          onChange={(e) => setNewAlbumTitle(e.target.value)}
+          className="new-album-input"
+        />
+        <button onClick={handleAdd} id="addA-id">+ Add Album</button>
       </div>
       <div className="search-container">
         <input
@@ -99,7 +107,7 @@ const Albums = () => {
       <div className="item-container">
         {loading ? (
           <p>Loading...</p>
-        )  : (
+        ) : (
           filteredAlbums.map((album) => (
             <div key={album.id} className="card" onClick={() => handleClick(album.id)}>
               <h3>{album.title}</h3>
