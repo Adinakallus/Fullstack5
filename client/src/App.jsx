@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import FillInfo from './pages/FillInfo';
 import Todos from './pages/Todos';
 import Albums from './pages/Albums';
-import Posts from './pages/Posts';
+import ShowAlbum from './pages/ShowAlbum';
 
 import './App.css'
 
@@ -27,9 +27,7 @@ const App = () => {
             <Route path="/users/:id">
               <Route path="todos" element={<Todos />} />
               <Route path="albums" element={<Albums />} />
-              <Route path="posts" element={<Posts/>} />
-
-              {/* <Route path="/albums/:aid" element={<AlbumDetails />} /> */}
+              <Route path="albums/:aid" element={<ShowAlbum />} />
               <Route path="*" element={<div>User Details</div>} />
             </Route>
           </Route>

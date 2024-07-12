@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import useFetch from '../hooks/useFetchHook';
@@ -9,6 +9,7 @@ const Todos = () => {
     const location = useLocation();
     const user = location.state.user;
     const fetchObj = useFetch();
+    const hasRunRef = useRef(false);
 
     const [todos, setTodos] = useState([]);
     const [sortCriterion, setSortCriterion] = useState('serial');
@@ -25,8 +26,11 @@ const Todos = () => {
             }
         };
 
-        if (user && user.id) fetchTodos();
-    }, [user]);
+        if (!hasRunRef.current) {
+            if (user && user.id) fetchTodos();
+            hasRunRef.current = true;
+        }
+    }, []);
 
     const getNewId = async () => {
         const data = await fetchObj.fetchData('todos');
@@ -192,7 +196,7 @@ const Todos = () => {
                                         onChange={(e) => handleUpdateTodo(todo.id, { ...todo, title: e.target.value })}
                                     />
                                 </span>
-                                <button className='delete-todo' onClick={() => handleDeleteTodo(todo.id)}>&#128465</button>
+                                <button onClick={() => handleDeleteTodo(todo.id)}>🗑️</button>
                             </li>
                         ))}
                     </ul>
